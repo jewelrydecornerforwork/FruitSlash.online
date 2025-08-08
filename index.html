@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fruit Slash Online - The Ultimate Fruit Slicing Game</title>
+    <meta name="description" content="Play Fruit Slash Online - The most addictive fruit slicing game! Slice fruits, avoid bombs, and achieve high scores in this exciting arcade game.">
+    <meta name="keywords" content="fruit slash, fruit ninja, slicing game, arcade game, online game, free game">
+    <link rel="canonical" href="https://fruitslash.online">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fruitslash.online">
+    <meta property="og:title" content="Fruit Slash Online - The Ultimate Fruit Slicing Game">
+    <meta property="og:description" content="Play the most addictive fruit slicing game online! Slice fruits, avoid bombs, and challenge your reflexes.">
+    <meta property="og:image" content="https://fruitslash.online/images/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://fruitslash.online">
+    <meta property="twitter:title" content="Fruit Slash Online - The Ultimate Fruit Slicing Game">
+    <meta property="twitter:description" content="Play the most addictive fruit slicing game online! Slice fruits, avoid bombs, and challenge your reflexes.">
+    <meta property="twitter:image" content="https://fruitslash.online/images/twitter-image.jpg">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo::before {
+            content: "🍎";
+            font-size: 2.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0 2rem;
+            color: #fff;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.5); }
+            to { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 30px rgba(255,255,255,0.8); }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .play-button {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .play-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #ff5252, #ffc107);
+        }
+
+        .main-game-section {
+            display: grid;
+            grid-template-columns: 200px 1fr 200px;
+            gap: 2rem;
+            margin: 2rem 0;
+            min-height: 600px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar h3 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .game-container {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .game-frame-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .game-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .mini-game-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 120px;
+        }
+
+        .mini-game-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .mini-game-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .bottom-games {
+            margin: 3rem 0;
+        }
+
+        .bottom-games h3 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .bottom-games-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2rem;
+        }
+
+        .bottom-game-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+        }
+
+        .bottom-game-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .bottom-game-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .about-section {
+            margin: 4rem 0;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-card {
+            background: transparent;
+            backdrop-filter: none;
+            border-radius: 0;
+            border: none;
+            padding: 4rem 0;
+            margin-bottom: 4rem;
+            box-shadow: none;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            color: #4a9b3a;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .about-text p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .features-section h2 {
+            color: #4a9b3a;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            font-weight: bold;
+        }
+
+        .features-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .feature-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .feature-item.reverse {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .feature-content h3 {
+            color: #4a9b3a;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .feature-content p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .image-upload-area {
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+
+        .about-image .image-upload-area {
+            height: 500px;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 100%;
+            background: #c8e6c9;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px dashed #4a9b3a;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .image-preview:hover {
+            background-color: #b8d6b9;
+            transform: translateY(-2px);
+        }
+
+        .image-preview span {
+            color: #4a9b3a;
+            font-weight: bold;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .faq-section {
+            background: transparent;
+            padding: 4rem 0;
+            margin-top: 4rem;
+        }
+
+        .faq-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .faq-section h2 {
+            color: #fff;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .faq-question {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .faq-answer {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-links a {
+            color: #fff;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: #fff;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-links a {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .main-game-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                max-width: 100%;
+                padding: 0 20px;
+            }
+
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+            }
+
+            .bottom-games-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .feature-item,
+            .feature-item.reverse {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .image-upload-area {
+                height: 250px;
+            }
+
+            .mini-game-card {
+                height: 140px;
+            }
+
+            .bottom-game-card {
+                height: 140px;
+            }
+            
+            .play-button {
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+            }
+
+            .main-game-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+            }
+
+            .bottom-games-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+
+            .sidebar {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .bottom-games-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .about-card {
+                padding: 2rem 0;
+            }
+
+            .faq-section {
+                padding: 3rem 0;
+            }
+
+            .faq-item {
+                padding: 1.5rem;
+            }
+
+            .mini-game-card {
+                height: 120px;
+            }
+
+            .bottom-game-card {
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Loading Game...</p>
+        </div>
+    </div>
+
+    <header>
+        <nav class="container">
+            <div class="logo">Fruitslash.online</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#games">Games</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero container" id="home">
+            <h1>Online Game</h1>
+            <p>The ultimate fruit slicing experience! Slice juicy fruits, avoid dangerous bombs, and become the master of the blade in this addictive arcade game.</p>
+            <a href="#games" class="play-button" onclick="loadGame()">Start Playing</a>
+        </section>
+
+        <section class="container" id="games">
+            <div class="main-game-section">
+                <!-- Left Sidebar Games -->
+                <div class="sidebar">
+                    <h3>More Games</h3>
+                    <div class="mini-game-card" onclick="loadSideGame('game1.html', this)">
+                        <iframe class="mini-game-frame" src="about:blank" title="Game 1" scrolling="no"></iframe>
+                    </div>
+                    <div class="mini-game-card" onclick="loadSideGame('game2.html', this)">
+                        <iframe class="mini-game-frame" src="about:blank" title="Game 2" scrolling="no"></iframe>
+                    </div>
+                    <div class="mini-game-card" onclick="loadSideGame('game3.html', this)">
+                        <iframe class="mini-game-frame" src="about:blank" title="Game 3" scrolling="no"></iframe>
+                    </div>
+                    <div class="mini-game-card" onclick="loadSideGame('game4.html', this)">
+                        <iframe class="mini-game-frame" src="about:blank" title="Game 4" scrolling="no"></iframe>
+                    </div>
+                </div>
+
+                <!-- Main Game Area -->
+                <div class="game-container">
+                    <div class="game-frame-wrapper">
+                        <iframe 
+                            id="gameFrame"
+                            class="game-frame"
+                            src="about:blank"
+                            title="Online Game"
+                            scrolling="no"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar Games -->
+                <div class="sidebar">
+                    <h3>More Games</h3>
+                    <div class="mini-game-card" onclick="loadSideGame('game5.html', this)">
+                        <iframe class="mini-game-frame" src="about:blank" title="Game 5" scrolling="no"></iframe>
+                    </div>
+                    <div class="mini-game-card" onclick="loadSideGame('game6.html', this)">
+                        <iframe class="mini-game-frame" src="about:blank" title="Game 6" scrolling="no"></iframe>
+                    </div>
+                    <div class="mini-game-card" onclick="loadSideGame('game7.html', this)">
+                        <iframe class="mini-game-frame" src="about:blank" title="Game 7" scrolling="no"></iframe>
+                    </div>
+                    <div class="mini-game-card" onclick="loadSideGame('game8.html', this)">
+                        <iframe class="mini-game-frame" src="about:blank" title="Game 8" scrolling="no"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Games Grid -->
+            <div class="bottom-games">
+                <h3>More Games</h3>
+                <div class="bottom-games-grid">
+                    <div class="bottom-game-card" onclick="loadSideGame('game9.html', this)">
+                        <iframe class="bottom-game-frame" src="about:blank" title="Game 9" scrolling="no"></iframe>
+                    </div>
+                    <div class="bottom-game-card" onclick="loadSideGame('game10.html', this)">
+                        <iframe class="bottom-game-frame" src="about:blank" title="Game 10" scrolling="no"></iframe>
+                    </div>
+                    <div class="bottom-game-card" onclick="loadSideGame('game11.html', this)">
+                        <iframe class="bottom-game-frame" src="about:blank" title="Game 11" scrolling="no"></iframe>
+                    </div>
+                    <div class="bottom-game-card" onclick="loadSideGame('game12.html', this)">
+                        <iframe class="bottom-game-frame" src="about:blank" title="Game 12" scrolling="no"></iframe>
+                    </div>
+                    <div class="bottom-game-card" onclick="loadSideGame('game13.html', this)">
+                        <iframe class="bottom-game-frame" src="about:blank" title="Game 13" scrolling="no"></iframe>
+                    </div>
+                    <div class="bottom-game-card" onclick="loadSideGame('game14.html', this)">
+                        <iframe class="bottom-game-frame" src="about:blank" title="Game 14" scrolling="no"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container about-section" id="about">
+            <!-- What is Your Game Section -->
+            <div class="about-card">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>What is Your Game?</h2>
+                        <p>Your game is an amazing experience...</p>
+                    </div>
+                    <div class="about-image">
+                        <div class="image-upload-area">
+                            <input type="file" id="gameImage1" accept="image/*" style="display: none;" onchange="previewImage(this, 'preview1')">
+                            <div class="image-preview" id="preview1" onclick="document.getElementById('gameImage1').click()">
+                                <span>Click to upload image</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Features Section -->
+            <div class="features-section">
+                <h2>Game Features</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-content">
+                            <h3>Completely Free</h3>
+                            <p>No payment required, start playing immediately</p>
+                        </div>
+                        <div class="feature-image">
+                            <div class="image-upload-area">
+                                <input type="file" id="featureImage1" accept="image/*" style="display: none;" onchange="previewImage(this, 'preview2')">
+                                <div class="image-preview" id="preview2" onclick="document.getElementById('featureImage1').click()">
+                                    <span>Click to upload image</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feature-item reverse">
+                        <div class="feature-image">
+                            <div class="image-upload-area">
+                                <input type="file" id="featureImage2" accept="image/*" style="display: none;" onchange="previewImage(this, 'preview3')">
+                                <div class="image-preview" id="preview3" onclick="document.getElementById('featureImage2').click()">
+                                    <span>Click to upload image</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Completely Free</h3>
+                            <p>No payment required, start playing immediately</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="faq-container">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-item">
+                    <div class="faq-question">Is this game completely free?</div>
+                    <div class="faq-answer">Yes, our game is completely free..</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Is this game completely free?</div>
+                    <div class="faq-answer">Yes, our game is completely free..</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Do I need to download anything?</div>
+                    <div class="faq-answer">No download required! You can play directly in your browser.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What devices are supported?</div>
+                    <div class="faq-answer">Our game works on desktop, tablet, and mobile devices.</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2025 fruitslash.online All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Load game function
+        function loadGame() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const gameFrame = document.getElementById('gameFrame');
+            
+            loadingScreen.classList.add('active');
+            
+            // Replace 'game.html' with your actual game file
+            setTimeout(() => {
+                gameFrame.src = 'game.html';
+                loadingScreen.classList.remove('active');
+            }, 1500);
+        }
+
+        // Load side game function
+        function loadSideGame(gameSrc, element) {
+            const iframe = element.querySelector('iframe');
+            if (iframe.src === 'about:blank' || iframe.src === '') {
+                iframe.src = gameSrc;
+            }
+            
+            // Optional: Load the game in main area when clicked
+            const mainGameFrame = document.getElementById('gameFrame');
+            const loadingScreen = document.getElementById('loadingScreen');
+            
+            loadingScreen.classList.add('active');
+            setTimeout(() => {
+                mainGameFrame.src = gameSrc;
+                loadingScreen.classList.remove('active');
+            }, 800);
+        }
+
+        // Image preview function
+        function previewImage(input, previewId) {
+            const file = input.files[0];
+            const preview = document.getElementById(previewId);
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.style.backgroundImage = `url(${e.target.result})`;
+                    preview.classList.add('has-image');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Add floating fruit animations
+        function createFloatingFruit() {
+            const fruits = ['🍎', '🍊', '🍌', '🍇', '🍓', '🥝', '🍑'];
+            const fruit = document.createElement('div');
+            fruit.textContent = fruits[Math.floor(Math.random() * fruits.length)];
+            fruit.style.position = 'fixed';
+            fruit.style.left = Math.random() * window.innerWidth + 'px';
+            fruit.style.top = window.innerHeight + 'px';
+            fruit.style.fontSize = '2rem';
+            fruit.style.pointerEvents = 'none';
+            fruit.style.zIndex = '1';
+            fruit.style.animation = 'floatUp 8s linear forwards';
+            
+            document.body.appendChild(fruit);
+            
+            setTimeout(() => {
+                fruit.remove();
+            }, 8000);
+        }
+
+        // Add CSS for floating animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes floatUp {
+                to {
+                    transform: translateY(-${window.innerHeight + 100}px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create floating fruits periodically
+        setInterval(createFloatingFruit, 3000);
+
+        // Mobile menu toggle (if needed for future enhancements)
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('mobile-active');
+        }
+
+        // Game frame error handling
+        document.getElementById('gameFrame').addEventListener('error', function() {
+            console.log('Game failed to load, you may need to update the src path');
+        });
+    </script>
+</body>
+</html>
