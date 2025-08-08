@@ -688,8 +688,8 @@
                         <iframe 
                             id="gameFrame"
                             class="game-frame"
-                            src="about:blank"
-                            title="Online Game"
+                            src="https://zh.y8.com/games/fruit_ninja_html5"
+                            title="Fruit Ninja Online Game"
                             scrolling="no"
                             allowfullscreen>
                         </iframe>
@@ -848,9 +848,9 @@
             
             loadingScreen.classList.add('active');
             
-            // Replace 'game.html' with your actual game file
+            // Load Y8 Fruit Ninja game
             setTimeout(() => {
-                gameFrame.src = 'game.html';
+                gameFrame.src = 'https://zh.y8.com/games/fruit_ninja_html5';
                 loadingScreen.classList.remove('active');
             }, 1500);
         }
